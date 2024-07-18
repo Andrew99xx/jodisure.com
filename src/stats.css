@@ -30,6 +30,9 @@
         flex-direction: column; /* Stack children vertically */
         align-items: center; /* Center-align the items */
     }
+    h2{
+        font-size:x-large;
+    }
 
     .download-buttons a {
         margin: 10px 0; /* Adjust margin for vertical spacing */
@@ -40,6 +43,6 @@
     }
 
     .download-buttons img {
-        height: 30px; /* Optionally adjust the size for mobile */
+        height: 60px; /* Optionally adjust the size for mobile */
     }
 }
