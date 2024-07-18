@@ -1,0 +1,45 @@
+.download-banner {
+    background-image: url('/public/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    padding: 40px ;
+    background-color: #78AFC3;
+    color: rgb(0, 0, 0);
+}
+
+.download-banner h2 {
+    margin-bottom: 20px; /* Add space between the title and buttons */
+}
+
+.download-buttons a {
+    margin: 0 10px;
+}
+
+.download-buttons img {
+    max-height: 80px;
+
+}
+
+
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+    .download-buttons {
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center-align the items */
+    }
+
+    .download-buttons a {
+        margin: 10px 0; /* Adjust margin for vertical spacing */
+    }
+
+    .download-banner h2 {
+        margin-bottom: 10px; /* Reduce margin-bottom in mobile view */
+    }
+
+    .download-buttons img {
+        height: 30px; /* Optionally adjust the size for mobile */
+    }
+}

@@ -1,38 +1,346 @@
-.App {
+.hero {
+  display: flex;
+  flex-direction: row; /* Align children side-by-side */
+  background-color: #fbe4e2;
+  height: 80vh;
+  overflow: hidden; /* Hides any part of the divs that overflow */
+  position: relative; /* Establishes a positioning context */
+}
+
+.background-image {
+  width: 60%; /* Set the width to cover 60% of the viewport width */
+  height: 100%; /* Match the height to the parent div */
+  background-image: url("/public/hero.png"); /* The URL of your image */
+  background-size: cover; /* Cover the div completely with the image */
+  background-position: right; /* Align the image to the right */
+  position: absolute; /* Position absolutely within .hero */
+}
+
+.centered-text {
+  color: white; /* Ensures good visibility */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  height: 100%; /* Fill the full height of the parent div */
+
+  text-align: center; /* Center text lines if they wrap */
+  padding: 20px; /* Add padding around the text */
+  width: 40%; /* Remaining width to match up to 100% with the background-image */
+  right: 0; /* Align to the right of the hero container */
+  position: absolute; /* Position absolutely within .hero */
+}
+.title-text {
+  font-family: "theSeason";
+  color: #592618;
+  font-size: 3vw;
+}
+.arapey-text {
+  font-family: Arapey;
+  color: #592618;
+  font-size: 1.5vw;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+.fredoka-text {
+  font-family: Fredoka;
+  color: #592618;
+  font-weight: bold;
+  font-size: 3vw;
+  padding: 5px;
+}
+.alice-text {
+  font-family: Alice;
+  color: #592618;
+  font-weight: bold;
+  font-size: 4vw;
+  padding: 5px;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.hero-banner {
+  padding: 0px;
+  height: 20vh; /* Adjust height as needed */
+  position: relative;
+  overflow: hidden; /* Ensures the pseudo-element doesn't escape the box */
+  background-clip: padding-box; /* Prevents the background from bleeding into the border */
+}
+/* Pseudo-element for the gradient border - Generalized for both banners */
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px; /* Adjust the thickness of the border */
+  background: linear-gradient(
+    45deg,
+    #bf8496,
+    #e4d9de,
+    #bf8496
+  ); /* Customize your gradient here */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  box-sizing: border-box; /* Includes padding in the width/height */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.slideScreen.active {
+  animation: slideUp 1s forwards; /* Execute the animation */
+}
+@font-face {
+  font-family: "theSeason";
+  src: url("./fonts/Fontspring-DEMO-theseasons-reg.otf") format("opentype");
+}
+@font-face {
+  font-family: "theSeasonBold";
+  src: url("./fonts/Fontspring-DEMO-theseasons-bd.otf") format("opentype");
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.swiper-container{
+  height: 100vh;
+  flex-direction: row; /* Ensures children are laid out in a row */
+  width: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.swiper {
+  width: 480px;
+  height: 640px;
+  padding: 100px;
+}
+.swiper-heading {
+  text-align: center;
+  color: #592618;
+}
+.swiper-content {
+  padding: 30px;
+  text-align: justify;
+  color: #592618;
+}
+.logo {
+  height: 70px; /* Adjust height to match the font size or as needed */
+}
+.swiper-slide {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-image: url('../public/bg.png'); /* Adding the background image */
+    background-size: cover; /* Cover the entire area without repeating */
+    background-position: center; /* Center the background image */  
+  width: 50px;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
+
 }
 
-.App-link {
-  color: #61dafb;
+.swiper-side-content{
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 50px;
+  color: #592618;
+  font-family: Alice;
+  font-size: 3vw;
+  background-color: #B77CA1;
+  height: 89.5%; /* Takes the full height of the parent */
+  display: flex; /* Enables flexbox properties */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  text-align: center; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.swiper-icon{
+  height: 150px;
+  width: 150px;
+  align-self: center; 
+  display: block; /* Makes the image a block-level element */
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide:nth-child(1n) {
+  background-color: #f49fa6;
+}
+
+.swiper-slide:nth-child(2n) {
+  background-color:#f49fa6;
+}
+
+.swiper-slide:nth-child(3n) {
+  background-color: #f49fa6;
+}
+
+.swiper-slide:nth-child(4n) {
+  background-color: #f49fa6;
+}
+
+.swiper-slide:nth-child(5n) {
+  background-color: rgb(238, 51, 255);
+}
+
+.swiper-slide:nth-child(6n) {
+  background-color: rgb(180, 10, 47);
+}
+
+.swiper-slide:nth-child(7n) {
+  background-color: rgb(35, 99, 19);
+}
+
+.swiper-slide:nth-child(8n) {
+  background-color: rgb(0, 68, 255);
+}
+
+.swiper-slide:nth-child(9n) {
+  background-color: rgb(218, 12, 218);
+}
+
+.swiper-slide:nth-child(10n) {
+  background-color: rgb(54, 94, 77);
+}
+
+@media (max-width: 768px) {
+  
+  .swiper-container{
+    height: 100vh;
+    flex-direction: column; /* Ensures children are laid out in a row */
+    /* width: auto; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+  .swiper-side-content{
+    margin-top: auto;
+    margin-bottom: auto;
+    /* padding: 50px; */
+    color: #592618;
+    font-family: Alice;
+    font-size: 3.5vh;
+    background-color: #B77CA1;
+    height: 25%; 
+    width: auto;
+    display: flex; /* Enables flexbox properties */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    text-align: center; 
   }
+  .swiper-icon{
+    height: 50px;
+    width: 50px;
+    align-self: center; 
+    display: block; /* Makes the image a block-level element */
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .swiper {
+    margin-top: -6vh;
+    margin-right: -1vw;
+    width: 200px;
+    height: 450px;
+    margin-bottom: 2vh;
+  }
+  .swiper-heading {
+    text-align: center;
+    font-size: 5vw;
+  }
+  .swiper-content {
+    padding: 20px;
+    text-align: justify;
+    font-size: 4vw;
+
+  }
+
+  .logo {
+    height: 30px; /* Adjust height to match the font size or as needed */
+  }
+  .hero {
+    display: flex;
+    flex-direction: column; /* Change to column to stack vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items from the top */
+    height: auto; /* Adjust height based on content */
+    position: relative; /* Keep position relative */
+  }
+  .title-text {
+    font-family: "theSeason";
+    color: #592618;
+    font-size: 3vh;
+  }
+
+  .arapey-text {
+    font-family: Arapey;
+    color: #592618;
+    font-size: 1.5vh;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .alice-text {
+    font-family: Alice;
+    color: #592618;
+    font-weight: bold;
+    font-size: 4vh;
+    padding: 5px;
+    text-align: center;
+  }
+  .fredoka-text {
+    font-family: Fredoka;
+    color: #592618;
+    font-weight: bold;
+    font-size: 3vh;
+    padding: 5px;
+  }
+  .background-image {
+    width: 100%; /* Full width */
+    height: 42vh; /* Set a specific height */
+    background-position: -25vh; /* Center background image */
+    position: relative; /* Remove absolute positioning */
+    top: 0; /* Reset top to align naturally */
+    z-index: 1; /* Lower z-index if not needed above text */
+  }
+
+  .centered-text {
+    width: 100%; /* Full width for text area */
+    height: 25vh; /* Adjust height as necessary */
+    font-size: 5vw; /* Adjust font size for mobile viewing */
+    background-color: #fbe4e2; /* Maintain background color */
+    position: relative; /* Adjust positioning */
+    top: 0; /* Reset top to align naturally */
+    padding: 20px; /* Ensure padding for spacing */
+    z-index: 2; /* Higher z-index if needed */
+  }
+
+  .hero-banner {
+    order: 3; /* Ensure banner comes after text */
+    height: 25vh;
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.sparkle {
+  position: absolute;
+  margin-top: -50vh;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px 2px #ffffff;
+  border-radius: 50%;
+  animation: fall 3s linear infinite;
 }

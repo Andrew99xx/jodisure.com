@@ -1,24 +1,59 @@
-import logo from './logo.svg';
+import logo from './logo.svg'; // Assuming you will use it somewhere else
 import './App.css';
+import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import VideoTextComponent from './VideoTextComponent';
+import { Swiper } from 'swiper/react';
+import SwiperComponent from './SwiperContainer';
+import { JackInTheBox } from 'react-awesome-reveal';
+import Footer from './Footer';
+import { BrowserRouter as Router, Route, Switch, Link, Routes, RouterProvider } from 'react-router-dom';
+import DisclaimerPage from './Disclaimer';
+// import Statistics from './stat';
+import router from './router';
+import Home from './Home';
 
 function App() {
+  const [isActive, setIsActive] = useState(false);
+  const [name, setName] = useState("Indranil")
+
+
+  // useEffect(() => {
+  //   const onScroll = () => {
+  //     if (window.scrollY > 50) { // Trigger animation after scrolling down 50 pixels
+  //       setIsActive(true);
+  //     } else {
+  //       setIsActive(false);
+  //     }
+  //   };
+
+  //   window.addEventListener('scroll', onScroll);
+  //   return () => window.removeEventListener('scroll', onScroll);
+  // }, []);
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 50) { // Trigger animation after scrolling down 50 pixels
+        setIsActive(true);
+      } else {
+        setIsActive(false);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+  
+
+      <RouterProvider router={router} >
+      <Home />
+      <Footer/>
+      </RouterProvider>
+    </>
   );
 }
 
