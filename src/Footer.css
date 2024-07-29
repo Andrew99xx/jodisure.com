@@ -26,7 +26,7 @@
   }
   @media (max-width: 600px) {
     .footer-content {
-      justify-content: space-around; /* Spread out the links more on smaller screens */
+      justify-content: center; /* Spread out the links more on smaller screens */
     }
   
     .footer-content a {
