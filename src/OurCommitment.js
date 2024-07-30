@@ -38,7 +38,7 @@ const IconGrid = () => {
               <img src={icon.icon} alt={`Icon ${index + 1}`} style={{ width: '50px', height: '50px' }} />
             </div>
             <h2 style={{textAlign:'center'}}>{icon.title}</h2>
-            <p style={{fontSize:16, textAlign:'center'}}>{icon.content}</p>
+            <p style={{fontSize:isMobile?'2vh':'1vw', textAlign:'center'}}>{icon.content}</p>
           </div>
         ))}
       </div>

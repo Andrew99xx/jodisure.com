@@ -72,7 +72,7 @@ function Home() {
           <div className="centered-text">
             
             <div className='title-text'>
-              Jodisure: Your Personal
+              JODISURE: Your Personal
               Matchmaker for Lasting Love
 
             </div>
@@ -100,7 +100,7 @@ function Home() {
 
           <div className='hero-banner'>
             <div style={{ padding: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-              <div className='alice-text'>India’s  most Secure and personalized matchmaking platform </div>
+              <div className='alice-text'>India’s  most secure and personalized matchmaking platform </div>
             </div>
           </div>
         </div>

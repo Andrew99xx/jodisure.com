@@ -62,7 +62,7 @@ function VideoTextComponent() {
 
     // Define styles here
     const containerStyle = {
-        height: '100vh',
+        height: 'max-content',
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         justifyContent: isMobile ? 'space-around' : 'space-around',
@@ -87,7 +87,7 @@ function VideoTextComponent() {
         fontFamily: 'Alice',
         color: "#FBE4E2",
         fontSize: isMobile ? '5vw' : '2vw',
-        color: isActive === index ? 'red' : 'black',
+        color: isActive === index ? 'white' : 'black',
         backgroundColor: '#BF8496',
         width:!isMobile?'80%':null,
         margin: isMobile ? "30px" : '50px'
@@ -116,7 +116,7 @@ function VideoTextComponent() {
                             <div key={index} style={textItemStyle(index)}
                                 onClick={() => setActiveIndex(index)}>
                                 <Fieldset legend={item.text}>
-                                    <p style={{color:'black', fontSize:isMobile?"8px":"22px"}}>
+                                    <p style={{color:'black', fontSize:isMobile?"8px":"1.5vw"}}>
                                        {item.subtext}
                                     </p>
                                 </Fieldset>
