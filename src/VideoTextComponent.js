@@ -97,7 +97,7 @@ function VideoTextComponent() {
         alignSelf: 'center',
         margin:'auto',
         marginRight:isMobile?'auto':'60px',
-        width: isMobile ? '50%' : '480px',
+        width: isMobile ? '75%' : '480px',
         height: isMobile ? '400px' : '480px'
     };
 
@@ -116,7 +116,7 @@ function VideoTextComponent() {
                             <div key={index} style={textItemStyle(index)}
                                 onClick={() => setActiveIndex(index)}>
                                 <Fieldset legend={item.text}>
-                                    <p style={{color:'black', fontSize:isMobile?"8px":"1.5vw"}}>
+                                    <p style={{color:'black', fontSize:isMobile?"16px":"1.5vw"}}>
                                        {item.subtext}
                                     </p>
                                 </Fieldset>

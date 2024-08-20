@@ -71,4 +71,8 @@
     .container {
         height: max-content;
     }
+    .icon-box {
+        height: max-content; /* Fixed height for all cards */
+
+    }
 }

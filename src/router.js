@@ -11,6 +11,7 @@ import DeleteProfile from './DeleteProfile';
 import ShippingPolicy from './ShippingPolicy';
 import Home from './Home';
 import ContactUs from './ContactUs';
+import Register from './Register';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: '/terms-of-service',
     element: <Service />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
   },
   {
     path: '/delete-profile',

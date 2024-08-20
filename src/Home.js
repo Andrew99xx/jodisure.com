@@ -70,19 +70,19 @@ function Home() {
           <div className="background-image"></div>
 
           <div className="centered-text">
-            
+
             <div className='title-text'>
-              JODISURE: Your Personal
-              Matchmaker for Lasting Love
-
+              <b>
+              JODISURE
+                </b> 
+            </div>
+            <div className='title-text' id='subtext'>
+            Your Personal
+            Matchmaker for Lasting Love
             </div>
             <div className='arapey-text'>
 
-              Find Your Perfect Match with Jodisure
-            </div>
-            <div className='arapey-text'>
-
-            Tired of swiping through endless profiles? Jodisure offers a truly personalized matchmaking experience. With a dedicated personal matchmaker assigned to every user, we redefine the way you find love.
+              Tired of swiping through endless profiles? Jodisure offers a truly personalized matchmaking experience. With a dedicated personal matchmaker assigned to every user, we redefine the way you find love.
 
             </div>
             <div>
@@ -107,9 +107,9 @@ function Home() {
       </div>
       <VideoTextComponent />
       <Statistics />
-      
-      <IconGrid/>
-        {/* <div className='swiper-side-content'>
+
+      <IconGrid />
+      {/* <div className='swiper-side-content'>
           <JackInTheBox>
             <p>
             OUR 
@@ -119,7 +119,7 @@ function Home() {
         </div>
         
         <SwiperComponent /> */}
-      
+
       <Footer />
 
 

@@ -1,0 +1,89 @@
+.containerRegister {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.left-section {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.right-section {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-section input,
+.right-section input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 2px;
+  box-sizing: border-box;
+}
+
+.toggle-group,
+.picker-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.toggle,
+.picker {
+  flex: 1;
+  padding: 10px;
+  margin: 0 5px;
+}
+
+.picture-input {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.half-width {
+  display: flex;
+  width: 50%; /* Set the container width to 50% of the parent div */
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.toggle {
+  flex: 1;
+  padding: 10px;
+  margin: 0 2px; /* Adjust the margin to fit exactly within 50% width */
+  box-sizing: border-box;
+}
+.large-input {
+  width: 100%;
+  height: auto; /* Use auto to prevent abnormal height */
+  padding: 10px;
+  margin: 5px 2px;
+  box-sizing: border-box;
+  text-align: center;
+}
