@@ -1,71 +1,371 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Register.css'
+import CustomUpload from './ImageUpload'
+import { Form, Input, Select, Switch, DatePicker, Button, notification } from 'antd';
+const { Option } = Select;
+import Autocomplete from 'react-google-autocomplete';
+import { autoGenPreferences, genUUID, getReligions, updateProfile, uploadDisplayPic } from './services/Auth.service';
+import { auth } from './firebase-config';
+import moment from 'moment/moment';
+
+
 const Register = () => {
+    const [form] = Form.useForm();
+    const [isTotalPrivacyEnabled, setTotalPrivacy] = useState(false);
+    const [isPhotoVisibilityEnabled, setPhotoVisibility] = useState(false);
+    const [religions, setReligions] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function fetchReligions() {
+            const religionOptions = await getReligions();
+            console.log("religionOptions", religionOptions);
+            setReligions(religionOptions);
+        }
+        fetchReligions();
+    }, []);
+    const handleFileListChange = (fileList) => {
+        setFiles(fileList)
+        console.log('Updated file list:', fileList);
+    };
+
+    const handleSubmit = async (values) => {
+        if (files.length === 0) {
+            alert('Please upload a photo.');
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            // Assuming only one photo is uploaded
+            try {
+
+                const file = files[0].originFileObj;
+                const filename = file.name;
+
+                // Upload the photo and get the download URL
+                const photoUrl = await uploadDisplayPic(auth.currentUser?.uid, filename, file);
+            } catch (e) {
+                console.error(e)
+            }
+
+            // Combine form values with the photo URL and privacy settings
+            if (!values.profile_created_by) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Who created Field is required',
+                });
+                return;
+            }
+
+            if (!values.gender) {
+                console.log(values.gender);
+                notification.error({
+                    message: 'Error',
+                    description: 'Gender is required',
+                });
+                return;
+            }
+            if (!values.religion) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Religion is required',
+                });
+                return;
+            }
+            if (!values.city) {
+                notification.error({
+                    message: 'Error',
+                    description: 'City is required',
+                });
+                return;
+            }
+
+            if (!values.marital_status) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Marital Status is required',
+                });
+                return;
+            }
+
+            if (!values.height) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Height is required',
+                });
+                return;
+            }
+
+            if (!values.religion) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Religion is required',
+                });
+                return;
+            }
+            if (!values.contact_email) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Contact email is required',
+                });
+                return;
+            }
+            if (!values.contact_name) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Contact name is required',
+                });
+                return;
+            }
+            if (!values.contact_no) {
+                notification.error({
+                    message: 'Error',
+                    description: 'Contact no. is required',
+                });
+                return;
+            }
+            const combinedValues = {
+                ...values,
+                isTotalPrivacyEnabled: isTotalPrivacyEnabled,
+                isPhotoVisibilityEnabled: isPhotoVisibilityEnabled,
+                isReligionInfoCompleted: true,
+                isDpCompleted: true,
+                dob: moment(values.date).format('DD/MM/YYYY'),
+                onboarded: true,
+                status: 'pending',
+                // photoUrl, // Adding the uploaded photo URL to the values
+            };
+            const filteredCombinedValues = Object.fromEntries(
+                Object.entries(combinedValues).filter(([_, v]) => v !== undefined)
+            );
+
+            console.log('Form values:', filteredCombinedValues, auth.currentUser?.uid,);
+            await updateProfile(filteredCombinedValues, auth.currentUser?.uid)
+            await genUUID(auth.currentUser?.uid)
+           console.log(await autoGenPreferences(auth.currentUser?.uid));
+
+            // Here you would typically call another function to save `combinedValues` to Firestore or perform other actions.
+
+            notification.success({
+                message: 'Success',
+                description: 'Profile Created Successfully',
+            });
+        } catch (error) {
+            console.error('Error uploading photo or submitting form:', error);
+            alert('Failed to submit form. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleTotalPrivacyChange = (checked) => {
+        setTotalPrivacy(checked);
+        if (checked) {
+            setPhotoVisibility(false); // Turn off photo visibility when total privacy is on
+        }
+    };
+
+    const handlePlaceSelected = (place) => {
+        console.log('Selected place:', place);
+        if (place.address_components) {
+            const city = place.address_components.find(component =>
+                component.types.includes('locality')
+            );
+            form.setFieldsValue({ city: city ? city.long_name : '' });
+        }
+    };
+
+    const handlePhotoVisibilityChange = (checked) => {
+        if (!isTotalPrivacyEnabled) {
+            setPhotoVisibility(checked);
+        }
+    };
+
     return (
-        <div className="containerRegister">
+        <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleSubmit}
+            className="containerRegister"
+        >
             <div className="left-section">
+
+                <Form.Item label="First Name" name="first_name">
+                    <Input required placeholder="First Name" />
+                </Form.Item>
+
+                <Form.Item label="Last Name" name="last_name">
+                    <Input required placeholder="Last Name" />
+                </Form.Item>
+
+                <Form.Item required label="Relation with profile" name="profile_created_by">
+                    <Select placeholder="Select Relation">
+                        <Option value="self">Self</Option>
+                        <Option value="family">Family</Option>
+                        <Option value="relative">Relative</Option>
+                        <Option value="friend">Friend</Option>
+                        <Option value="others">Others</Option>
+                    </Select>
+                </Form.Item>
+
                 <div className="toggle-group">
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
+                    <Form.Item required label="Total Privacy- Fully conceal your information in this app" name="isTotalPrivacyEnabled" valuePropName="checked">
+                        <Switch checked={isTotalPrivacyEnabled} onChange={handleTotalPrivacyChange} />
+                    </Form.Item>
+
+                    <Form.Item required label="Photo Visibility - Unveil your photo" name="isPhotoVisibilityEnabled" valuePropName="photoVisibility">
+                        <Switch
+                            checked={isPhotoVisibilityEnabled}
+                            onChange={handlePhotoVisibilityChange}
+                            disabled={isTotalPrivacyEnabled}
+                        />
+                    </Form.Item>
                 </div>
-                <div className="toggle-group">
-                    <input type="text" className="large-input" placeholder="input text" />
 
-                    <div className="half-width">
-                        <button className="toggle">toggle</button>
-                        <button className="toggle">toggle</button>
-                    </div>
+                <Form.Item required label="City" name="city">
+                    <Autocomplete
+                        apiKey="AIzaSyD39qDSSJ8WcS5nY0DKxhcAv25N0Pn97vo"
+                        style={{ width: '100%' }}
+                        onPlaceSelected={handlePlaceSelected}
+                        types={['(cities)']}
+                        placeholder="Enter your city"
+                        className="ant-input"
+                    />
+                </Form.Item>
 
-                </div>
-                <div className="picker-group">
+                <Form.Item required label="Gender" name="gender">
+                    <Select placeholder="Select Gender">
+                        <Option value="male">Male</Option>
+                        <Option value="female">Female</Option>
+                    </Select>
+                </Form.Item>
 
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
+                <Form.Item label="Eating Habit" name="eating_habits">
+                    <Select placeholder="Select Eating Habit">
+                        <Option value="Jain Vegetarian">Jain Vegetarian</Option>
+                        <Option value="Vegan">Vegan</Option>
+                        <Option value="Vegetarian">Vegetarian</Option>
+                        <Option value="Non Vegetarian">Non Vegetarian</Option>
+                        <Option value="Ovo Vegetarian">Ovo Vegetarian</Option>
+                    </Select>
+                </Form.Item>
 
+                <Form.Item required label="Marital Status" name="marital_status">
+                    <Select placeholder="Select Marital Status">
+                        <Option value="never_married">Never Married</Option>
+                        <Option value="awaiting_divorce">Awaiting Divorce</Option>
+                        <Option value="divorced">Divorced</Option>
+                        <Option value="widowed">Widowed</Option>
+                        <Option value="annulled">Annulled</Option>
+                    </Select>
+                </Form.Item>
 
-                </div>
-                <div className="picker-group">
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
-                </div>
-                <div className="picker-group">
+                <Form.Item required label="Date of Birth" name="dob">
+                    <DatePicker required style={{ width: '100%' }} />
+                </Form.Item>
 
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
-                </div>
-                <div className="picker-group">
+                <Form.Item label="Birth Place" name="place_of_birth">
+                    <Input placeholder="Birth Place" />
+                </Form.Item>
 
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
-                </div>
-                <div className="toggle-group">
-                    <input type="text" className="large-input" placeholder="input text" />
+                <Form.Item required label="Profession" name="profession">
+                    <Input required placeholder="Profession" />
+                </Form.Item>
 
-                    <div className="half-width">
-                        <button className="toggle">toggle</button>
-                        <button className="toggle">toggle</button>
-                    </div>
-                </div>
-                <div className="picker-group">
+                <Form.Item required label="Company Name" name="company_name">
+                    <Input required placeholder="Company Name" />
+                </Form.Item>
 
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
-                </div>
-                <div className="picker-group">
+                <Form.Item required label="Height" name="height">
+                    <Select placeholder="Select Height">
+                        {Array.from({ length: 61 }, (_, i) => {
+                            const feet = Math.floor(i / 12) + 3;
+                            const inches = i % 12;
+                            const height = `${feet}.${inches < 10 ? `0${inches}` : inches}`;
+                            return (
+                                <Option key={height} value={height}>
+                                    {height}
+                                </Option>
+                            );
+                        })}
+                    </Select>
+                </Form.Item>
 
-                    <input type="text" className="large-input" placeholder="input text" />
-                    <input type="text" className="large-input" placeholder="input text" />
-                </div>
+                <Form.Item label="Weight" name="weight">
+                    <Input type="number" placeholder="Weight" />
+                </Form.Item>
+
+                <Form.Item label="Post Marriage Plan" name="post_marriage_plan">
+                    <Input placeholder="Post Marriage Plan" />
+                </Form.Item>
+
+                <Form.Item required label="Highest Qualification" name="carrer_info">
+                    <Input required placeholder="Highest Qualification" />
+                </Form.Item>
+
+                <Form.Item label="University Name" name="university">
+                    <Input placeholder="University Name" />
+                </Form.Item>
+
+                <Form.Item label="Hobbies and Interest" name="hobbies">
+                    <Input placeholder="Hobbies and Interest" />
+                </Form.Item>
+
+                <Form.Item label="Health Issues(if any)" name="health_issue">
+                    <Input placeholder="Health Issues" />
+                </Form.Item>
+
+                <Form.Item required label="Number of Siblings" name="sibling_count">
+                    <Input required type="number" placeholder="Number of Siblings" />
+                </Form.Item>
+
+                <Form.Item required label="Mother Tongue" name="personal_info_language">
+                    <Input required placeholder="Mother Tongue" />
+                </Form.Item>
+
+                <Form.Item label="Religion" required name="religion">
+                    <Select placeholder="Select Religion" showSearch={true}>
+                        {religions.map(religion => (
+                            <Option key={religion} value={religion.name}>
+                                {religion.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
             </div>
+
             <div className="right-section">
-                <div className="picture-input">Picture input</div>
-                <button className="button">Button</button>
-                <input type="text" className="large-input" placeholder="input text" />
-                <input type="text" className="large-input" placeholder="input text" />
-                <input type="text" className="large-input" placeholder="input text" />
-                <button className="button">Button</button>
+                <Form.Item required label="Contact Name" name="contact_name">
+                    <Input placeholder="Contact Name" />
+                </Form.Item>
+
+                <Form.Item required label="Contact Email" name="contact_email">
+                    <Input type="email" placeholder="Contact Email" />
+                </Form.Item>
+
+                <Form.Item required label="Contact Number" name="contact_no">
+                    <Input type="tel" placeholder="Contact Number" />
+                </Form.Item>
+
+                <Form.Item required>
+                    <CustomUpload
+                        initialFileList={[]}
+                        maxFiles={3}
+                        actionUrl="https://example.com/upload"
+                        onFileListChange={handleFileListChange}
+                        rotationSlider={false}
+                    />
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" disabled={loading} style={{ width: '100%' }}>
+                        {loading ? 'Submitting' : "Submit"}
+                    </Button>
+                </Form.Item>
             </div>
-        </div>
+        </Form>
     )
 }
 

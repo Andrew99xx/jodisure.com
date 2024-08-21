@@ -1,29 +1,23 @@
 .containerRegister {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: 100vh; /* Full height of the viewport */
+  width: 100%;
+}
+
+.left-section, .right-section {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto; /* Ensure scrollability */
+  display: flex;
+  flex-direction: column;
 }
 
 .left-section {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
   border-right: 1px solid #ccc;
-  display: flex;
-  /* align-items: center; */
-  flex-direction: column;
-
-  justify-content: center;
 }
 
-.right-section {
-  flex: 1;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
 
 .left-section input,
 .right-section input {
@@ -39,6 +33,10 @@
   justify-content: space-between;
   margin: 5px 0;
 }
+.toggle-group {
+  align-items: center;
+  gap: 20px; /* Space between the toggle switches */
+}
 
 .toggle,
 .picker {
@@ -51,8 +49,8 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 1px solid #ccc;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
@@ -79,6 +77,7 @@
   margin: 0 2px; /* Adjust the margin to fit exactly within 50% width */
   box-sizing: border-box;
 }
+
 .large-input {
   width: 100%;
   height: auto; /* Use auto to prevent abnormal height */
@@ -86,4 +85,41 @@
   margin: 5px 2px;
   box-sizing: border-box;
   text-align: center;
+}
+
+/* Custom scrollbar styling */
+.left-section::-webkit-scrollbar, .right-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.left-section::-webkit-scrollbar-track, .right-section::-webkit-scrollbar-track {
+  background: #ffcde6; /* Background color of the scrollbar track */
+}
+
+.left-section::-webkit-scrollbar-thumb, .right-section::-webkit-scrollbar-thumb {
+  background-color: #ed83d1; /* Scrollbar thumb color */
+  border-radius: 10px; /* Roundness of the scrollbar thumb */
+  
+}
+
+.left-section::-webkit-scrollbar-thumb:hover, .right-section::-webkit-scrollbar-thumb:hover {
+  background-color: #973789; /* Thumb color when hovered */
+}
+@media (max-width: 768px) {
+  .containerRegister {
+    flex-direction: column; /* Stack sections vertically */
+    height: fit-content; /* Let height expand with content */
+  }
+
+  .left-section .right-section {
+    border-right: none; /* Remove border on smaller screens */
+    border-bottom: 1px solid #ccc; /* Optionally, add a bottom border */
+    overflow-y: visible; /* Disable vertical scrolling */
+  }
+
+  /*  */
+
+  .left-section::-webkit-scrollbar, .right-section::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+  }
 }

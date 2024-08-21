@@ -1,0 +1,38 @@
+.upload-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .horizontal-list .ant-upload-list-picture-card-container {
+    display: inline-block;
+    margin-right: 10px; /* Spacing between items */
+  }
+  
+  .upload-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .upload-circle:hover {
+    border-color: #1890ff;
+  }
+  
+  .horizontal-list .ant-upload-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .horizontal-list .ant-upload-list-item {
+    margin-right: 10px;
+  }
+  
