@@ -43,23 +43,8 @@ function Home() {
   }, []);
 
   const handleClick = () => {
-    // Check for user's operating system
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    window.location.href = '/register';
 
-    // Windows or Android devices
-    if (/windows phone/i.test(userAgent) || /android/i.test(userAgent)) {
-      window.location.href = 'https://play.google.com/store/apps/details?id=com.jodisure.app&invitedBy=HG20EI'; // Replace 'yourAppId' with your actual Google Play Store app ID
-    }
-
-    // iOS devices
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      window.location.href = 'https://apps.apple.com/app/idyourAppId'; // Replace 'yourAppId' with your actual Apple App Store app ID
-    }
-
-    // MacOS
-    if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent)) {
-      window.location.href = 'https://apps.apple.com/app/idyourAppId'; // Same as for iOS
-    }
   }
 
   return (
@@ -86,11 +71,11 @@ function Home() {
 
             </div>
             <div>
-              <Button variant="outlined" style={{ color: "#592618", borderColor: "#f2ce80", borderRadius: "25px", borderWidth: "3px", display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onClick={handleClick}>
+              <Button variant="contained" style={{  backgroundColor:"#f2ce80", color: "#592618", borderColor: "#FFD700", borderRadius: "25px", borderWidth: "3px", display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onClick={handleClick}>
                 <img src="logo.png" alt="Logo" className="logo" />
                 <div className='fredoka-text'>
 
-                  Download Now
+                  Register Now
                 </div>
               </Button>
             </div>

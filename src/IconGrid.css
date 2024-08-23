@@ -39,7 +39,8 @@
   max-width: 250px;
   height: 400px; /* Fixed height for all cards */
   margin: 20px;
-  background-color: #fff;
+  background-color: #ffffff;
+  background-image: url('/public/bg.png');
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -49,6 +50,9 @@
   width: 100px;
   height: 100px;
   margin: 0 auto;
+  background-color: #f2ce80;
+  /* background-color: #ebdec2; */
+
   border: 5px solid #592618;
   border-radius: 50%;
   display: flex;
@@ -63,7 +67,7 @@
 }
 
 .icon-box p {
-  color: #666;
+  color: #383737;
   font-size: 14px;
 }
 

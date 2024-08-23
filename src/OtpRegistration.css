@@ -1,86 +1,143 @@
 .otp-registration-container {
-    max-width: 400px;
-    width: 100%; /* Ensure it scales on smaller screens */
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Prevent content overflow during slide transitions */
-    position: relative;
-    
-    /* Centering the container */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  display: flex;
+  /* max-width: 800px; */
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.left-section-otp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo-image {
+  /* width: 150px; */
+  height: 200px;
+  /* border-radius: 50%; */
+  object-fit: cover;
+}
+
+.quote-container {
+  /* margin-top: 20px; */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-text {
+  font-size: 16px;
+  color: #555;
+  /* padding: 10px; */
+  border-radius: 8px;
+  /* background-color: #f0f0f0; */
+  display: inline-block;
+}
+
+.right-section-otp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.phone-input-container {
+  width: 100%;
+}
+
+.send-otp-btn,
+.submit-otp-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.otp-input {
+  /* width: 40px; */
+  height: 40px;
+  margin: 0 5px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #575757; /* Set the text color to black */
+  background-color: #fff; /* Set the background color to white */
+  border: 1px solid #d9d9d9;
+}
+
+.otp-container {
+  display: flex;
+  color: #555;
+  justify-content: space-between;
+}
+.slide-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 500ms, opacity 500ms;
+}
+
+.slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 500ms, opacity 500ms;
+}
+@media (max-width: 768px) {
+  .otp-registration-container {
+    flex-direction: column;
+    padding: 15px;
   }
 
-  .otp-input {
-    width: 40px;
-    height: 40px;
-    margin: 0 5px;
-    font-size: 18px;
-    border-radius: 4px;
-    border: 1px solid #d9d9d9;
+  .left-section-otp,
+  .right-section-otp {
+    border: none;
+    padding: 10px;
   }
 
-  .otp-container {
-    display: flex;
-    justify-content: space-between;
+  .logo-image {
+    width: 120px;
+    height: 120px;
   }
-  
-  .phone-input-container {
-    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .otp-registration-container {
+    flex-direction: column; /* Stacks the sections vertically */
+    padding: 15px;
+    height: fit-content;
   }
-  
-  .ant-row {
-    margin-bottom: 20px;
+
+  .left-section-otp,
+  .right-section-otp {
+    border: none;
+    padding: 10px;
   }
-  
-  /* Slide transition animations */
-  .slide-enter {
-    transform: translateX(100%);
-    opacity: 0;
+
+  .logo-image {
+    margin-top: 40px;
+    width: fit-content;
+    height: 120px;
   }
-  
-  .slide-enter-active {
-    transform: translateX(0);
-    opacity: 1;
-    transition: transform 500ms, opacity 500ms;
-  }
-  
-  .slide-exit {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  
-  .slide-exit-active {
-    transform: translateX(-100%);
-    opacity: 0;
-    transition: transform 500ms, opacity 500ms;
-  }
-  
-  @media (max-width: 768px) {
-    .otp-registration-container {
-      padding: 15px;
-    }
-  
-    .ant-col {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  }
-  
-  
-  @media (max-width: 768px) {
-    .otp-registration-container {
-      padding: 15px;
-    }
-  
-    .ant-col {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  }
-  
+}

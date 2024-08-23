@@ -3,16 +3,30 @@
   flex-direction: row;
   height: 100vh; /* Full height of the viewport */
   width: 100%;
+  /* padding: 15px; */
+  background-image: url('../public/bg.png'); /* Adding the background image */
+  background-color: #A5CBD8;
+  /* background-color: #d0e6ed; */
+
 }
+.custom-date-picker .ant-picker-input  {
+  background-color: #d0e6ed;
+  border-radius: 4px;
+  padding: 8px;
+}
+
 
 .left-section, .right-section {
   flex: 1;
-  padding: 10px;
+  padding: 40px;
   overflow-y: auto; /* Ensure scrollability */
   display: flex;
   flex-direction: column;
+  /* color: #7e0028; */
 }
-
+.ant-select-selector {
+  background-color: #d0e6ed !important;
+}
 .left-section {
   border-right: 1px solid #ccc;
 }
@@ -93,17 +107,18 @@
 }
 
 .left-section::-webkit-scrollbar-track, .right-section::-webkit-scrollbar-track {
-  background: #ffcde6; /* Background color of the scrollbar track */
+  background: #c7a5af; /* Background color of the scrollbar track */
 }
 
 .left-section::-webkit-scrollbar-thumb, .right-section::-webkit-scrollbar-thumb {
-  background-color: #ed83d1; /* Scrollbar thumb color */
+  background-color: #BF8496; /* Scrollbar thumb color */
+  /* color: #c397a5; */
   border-radius: 10px; /* Roundness of the scrollbar thumb */
   
 }
 
 .left-section::-webkit-scrollbar-thumb:hover, .right-section::-webkit-scrollbar-thumb:hover {
-  background-color: #973789; /* Thumb color when hovered */
+  background-color: #d16485; /* Thumb color when hovered */
 }
 @media (max-width: 768px) {
   .containerRegister {

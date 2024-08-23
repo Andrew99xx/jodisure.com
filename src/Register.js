@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './Register.css'
 import CustomUpload from './ImageUpload'
 import { Form, Input, Select, Switch, DatePicker, Button, notification } from 'antd';
+// import 'antd/dist/antd.css';
+// import  './antd.css'
 const { Option } = Select;
 import Autocomplete from 'react-google-autocomplete';
 import { autoGenPreferences, genUUID, getReligions, updateProfile, uploadDisplayPic } from './services/Auth.service';
@@ -145,7 +147,7 @@ const Register = () => {
             console.log('Form values:', filteredCombinedValues, auth.currentUser?.uid,);
             await updateProfile(filteredCombinedValues, auth.currentUser?.uid)
             await genUUID(auth.currentUser?.uid)
-           console.log(await autoGenPreferences(auth.currentUser?.uid));
+            console.log(await autoGenPreferences(auth.currentUser?.uid));
 
             // Here you would typically call another function to save `combinedValues` to Firestore or perform other actions.
 
@@ -153,6 +155,9 @@ const Register = () => {
                 message: 'Success',
                 description: 'Profile Created Successfully',
             });
+            setTimeout(() => {
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.jodisure.app&invitedBy=HG20EI';
+            }, 1000);
         } catch (error) {
             console.error('Error uploading photo or submitting form:', error);
             alert('Failed to submit form. Please try again.');
@@ -192,16 +197,16 @@ const Register = () => {
         >
             <div className="left-section">
 
-                <Form.Item label="First Name" name="first_name">
-                    <Input required placeholder="First Name" />
+                <Form.Item required label="First Name" name="first_name">
+                    <Input required placeholder="First Name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
-                <Form.Item label="Last Name" name="last_name">
-                    <Input required placeholder="Last Name" />
+                <Form.Item required label="Last Name" name="last_name">
+                    <Input required placeholder="Last Name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item required label="Relation with profile" name="profile_created_by">
-                    <Select placeholder="Select Relation">
+                    <Select placeholder="Select Relation" style={{ backgroundColor: '#d0e6ed' }} defaultValue={"self"} >
                         <Option value="self">Self</Option>
                         <Option value="family">Family</Option>
                         <Option value="relative">Relative</Option>
@@ -210,24 +215,12 @@ const Register = () => {
                     </Select>
                 </Form.Item>
 
-                <div className="toggle-group">
-                    <Form.Item required label="Total Privacy- Fully conceal your information in this app" name="isTotalPrivacyEnabled" valuePropName="checked">
-                        <Switch checked={isTotalPrivacyEnabled} onChange={handleTotalPrivacyChange} />
-                    </Form.Item>
 
-                    <Form.Item required label="Photo Visibility - Unveil your photo" name="isPhotoVisibilityEnabled" valuePropName="photoVisibility">
-                        <Switch
-                            checked={isPhotoVisibilityEnabled}
-                            onChange={handlePhotoVisibilityChange}
-                            disabled={isTotalPrivacyEnabled}
-                        />
-                    </Form.Item>
-                </div>
 
                 <Form.Item required label="City" name="city">
                     <Autocomplete
                         apiKey="AIzaSyD39qDSSJ8WcS5nY0DKxhcAv25N0Pn97vo"
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', backgroundColor: '#d0e6ed', borderColor: '#d9d9d9', borderWidth: '1px', borderRadius: 4 }}
                         onPlaceSelected={handlePlaceSelected}
                         types={['(cities)']}
                         placeholder="Enter your city"
@@ -235,25 +228,25 @@ const Register = () => {
                     />
                 </Form.Item>
 
-                <Form.Item required label="Gender" name="gender">
-                    <Select placeholder="Select Gender">
+                <Form.Item required label="Gender" name="gender" >
+                    <Select placeholder="Select Gender" style={{ backgroundColor: '#d0e6ed' }}>
                         <Option value="male">Male</Option>
                         <Option value="female">Female</Option>
                     </Select>
                 </Form.Item>
 
-                <Form.Item label="Eating Habit" name="eating_habits">
-                    <Select placeholder="Select Eating Habit">
-                        <Option value="Jain Vegetarian">Jain Vegetarian</Option>
-                        <Option value="Vegan">Vegan</Option>
-                        <Option value="Vegetarian">Vegetarian</Option>
-                        <Option value="Non Vegetarian">Non Vegetarian</Option>
-                        <Option value="Ovo Vegetarian">Ovo Vegetarian</Option>
+                <Form.Item label="Religion" required name="religion">
+                    <Select placeholder="Select Religion" showSearch={true} style={{ backgroundColor: '#d0e6ed' }}>
+                        {religions.map(religion => (
+                            <Option key={religion} value={religion.name} >
+                                {religion.name}
+                            </Option>
+                        ))}
                     </Select>
                 </Form.Item>
 
-                <Form.Item required label="Marital Status" name="marital_status">
-                    <Select placeholder="Select Marital Status">
+                <Form.Item required label="Marital Status" name="marital_status" >
+                    <Select placeholder="Select Marital Status" style={{ backgroundColor: '#d0e6ed' }} defaultValue={"never_married"}>
                         <Option value="never_married">Never Married</Option>
                         <Option value="awaiting_divorce">Awaiting Divorce</Option>
                         <Option value="divorced">Divorced</Option>
@@ -262,24 +255,22 @@ const Register = () => {
                     </Select>
                 </Form.Item>
 
-                <Form.Item required label="Date of Birth" name="dob">
-                    <DatePicker required style={{ width: '100%' }} />
+                <Form.Item required label="Date of Birth" name="dob" >
+                    <DatePicker required style={{ width: '100%' }} className='custom-date-picker' />
                 </Form.Item>
 
-                <Form.Item label="Birth Place" name="place_of_birth">
-                    <Input placeholder="Birth Place" />
-                </Form.Item>
+
 
                 <Form.Item required label="Profession" name="profession">
-                    <Input required placeholder="Profession" />
+                    <Input required placeholder="Profession" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item required label="Company Name" name="company_name">
-                    <Input required placeholder="Company Name" />
+                    <Input required placeholder="Company/ Business Name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item required label="Height" name="height">
-                    <Select placeholder="Select Height">
+                    <Select placeholder="Select Height" style={{ backgroundColor: '#d0e6ed' }}>
                         {Array.from({ length: 61 }, (_, i) => {
                             const feet = Math.floor(i / 12) + 3;
                             const inches = i % 12;
@@ -293,74 +284,97 @@ const Register = () => {
                     </Select>
                 </Form.Item>
 
+                <Form.Item required label="Highest Qualification" name="carrer_info">
+                    <Input required placeholder="Highest Qualification" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <div className="toggle-group">
+                    <Form.Item label="Total Privacy- Fully conceal your information in this app" name="isTotalPrivacyEnabled" valuePropName="checked">
+                        <Switch checked={isTotalPrivacyEnabled} onChange={handleTotalPrivacyChange} />
+                    </Form.Item>
+
+                    <Form.Item label="Photo Visibility - Unveil your photo" name="isPhotoVisibilityEnabled" valuePropName="photoVisibility">
+                        <Switch
+                            checked={isPhotoVisibilityEnabled}
+                            onChange={handlePhotoVisibilityChange}
+                            disabled={isTotalPrivacyEnabled}
+                        />
+                    </Form.Item>
+                </div>
+                <Form.Item label="Birth Place" name="place_of_birth">
+                    <Input placeholder="Birth Place" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <Form.Item label="Eating Habit" name="eating_habits" >
+                    <Select placeholder="Select Eating Habit" style={{ backgroundColor: '#d0e6ed' }}>
+                        <Option value="Jain Vegetarian">Jain Vegetarian</Option>
+                        <Option value="Vegan">Vegan</Option>
+                        <Option value="Vegetarian">Vegetarian</Option>
+                        <Option value="Non Vegetarian">Non Vegetarian</Option>
+                        <Option value="Ovo Vegetarian">Ovo Vegetarian</Option>
+                    </Select>
+                </Form.Item>
+
                 <Form.Item label="Weight" name="weight">
-                    <Input type="number" placeholder="Weight" />
+                    <Input type="number" placeholder="Weight" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item label="Post Marriage Plan" name="post_marriage_plan">
-                    <Input placeholder="Post Marriage Plan" />
+                    <Input placeholder="Post Marriage Plan" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
-                <Form.Item required label="Highest Qualification" name="carrer_info">
-                    <Input required placeholder="Highest Qualification" />
-                </Form.Item>
+
 
                 <Form.Item label="University Name" name="university">
-                    <Input placeholder="University Name" />
+                    <Input placeholder="University Name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item label="Hobbies and Interest" name="hobbies">
-                    <Input placeholder="Hobbies and Interest" />
+                    <Input placeholder="Hobbies and Interest" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item label="Health Issues(if any)" name="health_issue">
-                    <Input placeholder="Health Issues" />
+                    <Input placeholder="Health Issues" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
-                <Form.Item required label="Number of Siblings" name="sibling_count">
-                    <Input required type="number" placeholder="Number of Siblings" />
+                <Form.Item label="Number of Siblings" name="sibling_count">
+                    <Input type="number" placeholder="Number of Siblings" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
-                <Form.Item required label="Mother Tongue" name="personal_info_language">
-                    <Input required placeholder="Mother Tongue" />
+                <Form.Item label="Mother Tongue" name="personal_info_language">
+                    <Input placeholder="Mother Tongue" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
-                <Form.Item label="Religion" required name="religion">
-                    <Select placeholder="Select Religion" showSearch={true}>
-                        {religions.map(religion => (
-                            <Option key={religion} value={religion.name}>
-                                {religion.name}
-                            </Option>
-                        ))}
-                    </Select>
-                </Form.Item>
+
             </div>
 
             <div className="right-section">
-                <Form.Item required label="Contact Name" name="contact_name">
-                    <Input placeholder="Contact Name" />
-                </Form.Item>
-
-                <Form.Item required label="Contact Email" name="contact_email">
-                    <Input type="email" placeholder="Contact Email" />
-                </Form.Item>
-
-                <Form.Item required label="Contact Number" name="contact_no">
-                    <Input type="tel" placeholder="Contact Number" />
-                </Form.Item>
-
                 <Form.Item required>
                     <CustomUpload
+
                         initialFileList={[]}
                         maxFiles={3}
                         actionUrl="https://example.com/upload"
                         onFileListChange={handleFileListChange}
                         rotationSlider={false}
+
                     />
                 </Form.Item>
+                <Form.Item required label="Contact Name" name="contact_name">
+                    <Input placeholder="Contact Name" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <Form.Item required label="Contact Email" name="contact_email">
+                    <Input type="email" placeholder="Contact Email" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <Form.Item required label="Contact Number" name="contact_no" >
+                    <Input type="tel" placeholder="Contact Number" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" disabled={loading} style={{ width: '100%' }}>
+                    <Button type="primary" htmlType="submit" disabled={loading} style={{ width: '100%', backgroundColor: "#05626E" }}>
                         {loading ? 'Submitting' : "Submit"}
                     </Button>
                 </Form.Item>
