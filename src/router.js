@@ -13,6 +13,7 @@ import Home from './Home';
 import ContactUs from './ContactUs';
 import Register from './Register';
 import Auth from './Auth';
+import ProfileCard from './UserProfile';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/disclaimer',
     element: <DisclaimerPage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfileCard />,
   },
   {
     path: '/return',
