@@ -1,20 +1,17 @@
-.profile-card {
+.profile-container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1.5fr 1fr; /* Adjusted to give more space to the image */
   grid-template-rows: auto 1fr;
-  gap: 20px;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  max-width: 700px;
-  margin: 40px auto;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+  gap: 10px;
+  width: 100%;
+  /* max-width: 800px; */
+  margin: 0 auto;
+  padding-left: 30px;
+  padding-right: 30px;
 
-.profile-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  height: auto;
+  box-sizing: border-box;
+  background-color: transparent; /* Transparent background to blend with parent container */
 }
 
 .profile-image {
@@ -22,64 +19,133 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: auto !important;
+  height: 100%; /* Ensures the image takes full height of the grid area */
 }
 
 .profile-image img {
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: auto;
+  max-height: 100%; 
   object-fit: cover;
+  border-radius: 10px; /* Rounded corners for the image */
+  filter: blur(40px); 
+
+}
+.blur-text {
+  filter: blur(7px); /* Adjust the blur radius as needed */
 }
 
 .profile-details {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  padding: 0 20px;
+  align-items: center;
 }
 
 .profile-details h2 {
   margin: 0;
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-weight: bold;
   color: #333;
-  margin-bottom: 10px;
 }
 
 .profile-details p {
-  margin: 3px 0;
-  color: #777;
-  font-size: 1em;
+  margin: 5px 0;
+  color: #555;
 }
 
 .profile-summary {
   display: grid;
+  justify-content: space-between;
+  align-items: center;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  padding: 10px;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f7eff1;
 }
 
 .summary-column {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 
 .summary-column p {
-  background-color: #eeeeee;
-  padding: 10px;
-  border-radius: 8px;
+  background-color: #f0f0f0;
+  padding: 8px;
+  border: none;
   color: #444;
   font-size: 0.9em;
-  transition: background-color 0.2s, color 0.2s;
+  border-radius: 5px;
 }
 
-.summary-column p:hover {
-  background-color: #d4d4d4;
-  color: #222;
+.label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #001529;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.ant-menu-item {
+  font-size: 16px;
+  color: #fff;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #1890ff;
+}
+
+.ant-btn-primary {
+  background-color: #d4380d;
+  border-color: #d4380d;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    height: auto; /* Adjust height to fit content */
+    padding: 15px;
+  }
+
+  .profile-image {
+    grid-row: auto; /* Remove grid-row for stacking */
+    width: 100%;
+    height: 50vh; /* Allow height to adjust with content */
+    margin-bottom: 20px; /* Add some space below the image */
+  }
+
+  .profile-image img {
+    max-height: 50vh; /* Increase height for better visibility on mobile */
+    border-radius: 10px; /* Ensure rounded corners on mobile */
+  }
+
+  .profile-details,
+  .profile-summary {
+    width: 100%; /* Full width for mobile view */
+    padding: 0; /* Remove padding */
+  }
+
+  .profile-summary {
+    /* grid-template-columns: 1fr;  */
+    padding: 10px 0;
+  }
+
+  .summary-column {
+    padding: 0; /* Remove padding on mobile */
+  }
+
+  .summary-column p {
+    font-size: 1em; /* Slightly larger text for readability on mobile */
+  }
 }

@@ -142,12 +142,12 @@ const OtpRegistration = ({ onSubmit }) => {
                 if (userData.UUID && userData.onboarded) {
                     notification.info({
                         message: 'Account Exists',
-                        description: 'Your account is already created.',
+                        description: 'Your account is already created. Redirecting',
                     });
 
                     // Wait for 1 second before redirecting
                     setTimeout(() => {
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.jodisure.app&invitedBy=HG20EI';
+                        window.location.href = 'profile';
                     }, 1000);
                 }
                 else {
