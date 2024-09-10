@@ -6,9 +6,10 @@ import { Form, Input, Select, Switch, DatePicker, Button, notification } from 'a
 // import  './antd.css'
 const { Option } = Select;
 import Autocomplete from 'react-google-autocomplete';
-import { autoGenPreferences, genUUID, getReligions, updateProfile, uploadDisplayPic } from './services/Auth.service';
+import { autoGenPreferences, genUUID, getPreferenceAndAbout, getReligions, updateProfile, uploadDisplayPic } from './services/Auth.service';
 import { auth } from './firebase-config';
 import moment from 'moment/moment';
+import { TimePicker } from 'antd';
 
 
 const Register = () => {
@@ -18,14 +19,21 @@ const Register = () => {
     const [religions, setReligions] = useState([]);
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
+    // const [complexion, setComplexion] = useState()
+    const [complexions, setComplexions] = useState([])
+
 
     useEffect(() => {
-        async function fetchReligions() {
+        async function fetchReligionsAndComplexion() {
+            const { complexion } = await getPreferenceAndAbout()
+            console.log("preference_and_about", complexion);
+            setComplexions(complexion)
+
             const religionOptions = await getReligions();
             console.log("religionOptions", religionOptions);
             setReligions(religionOptions);
         }
-        fetchReligions();
+        fetchReligionsAndComplexion();
     }, []);
     const handleFileListChange = (fileList) => {
         setFiles(fileList)
@@ -129,11 +137,13 @@ const Register = () => {
                 });
                 return;
             }
+            const selectedTime = values.time ? values.time.format('h:mm A') : null;
             const combinedValues = {
                 ...values,
                 isTotalPrivacyEnabled: isTotalPrivacyEnabled,
                 isPhotoVisibilityEnabled: isPhotoVisibilityEnabled,
                 isReligionInfoCompleted: true,
+                birth_time: selectedTime,
                 isDpCompleted: true,
                 dob: moment(values.date).format('DD/MM/YYYY'),
                 onboarded: true,
@@ -144,6 +154,7 @@ const Register = () => {
                 Object.entries(combinedValues).filter(([_, v]) => v !== undefined)
             );
 
+            console.log('Selected time:', selectedTime);
             console.log('Form values:', filteredCombinedValues, auth.currentUser?.uid,);
             await updateProfile(filteredCombinedValues, auth.currentUser?.uid)
             await genUUID(auth.currentUser?.uid)
@@ -156,7 +167,7 @@ const Register = () => {
                 description: 'Profile Created Successfully',
             });
             setTimeout(() => {
-                window.location.href = 'https://play.google.com/store/apps/details?id=com.jodisure.app&invitedBy=HG20EI';
+                // window.location.href = 'https://play.google.com/store/apps/details?id=com.jodisure.app&invitedBy=HG20EI';
             }, 1000);
         } catch (error) {
             console.error('Error uploading photo or submitting form:', error);
@@ -235,40 +246,6 @@ const Register = () => {
                     </Select>
                 </Form.Item>
 
-                <Form.Item label="Religion" required name="religion">
-                    <Select placeholder="Select Religion" showSearch={true} style={{ backgroundColor: '#d0e6ed' }}>
-                        {religions.map(religion => (
-                            <Option key={religion} value={religion.name} >
-                                {religion.name}
-                            </Option>
-                        ))}
-                    </Select>
-                </Form.Item>
-
-                <Form.Item required label="Marital Status" name="marital_status" >
-                    <Select placeholder="Select Marital Status" style={{ backgroundColor: '#d0e6ed' }} defaultValue={"never_married"}>
-                        <Option value="never_married">Never Married</Option>
-                        <Option value="awaiting_divorce">Awaiting Divorce</Option>
-                        <Option value="divorced">Divorced</Option>
-                        <Option value="widowed">Widowed</Option>
-                        <Option value="annulled">Annulled</Option>
-                    </Select>
-                </Form.Item>
-
-                <Form.Item required label="Date of Birth" name="dob" >
-                    <DatePicker required style={{ width: '100%' }} className='custom-date-picker' />
-                </Form.Item>
-
-
-
-                <Form.Item required label="Profession" name="profession">
-                    <Input required placeholder="Profession" style={{ backgroundColor: '#d0e6ed' }} />
-                </Form.Item>
-
-                <Form.Item required label="Company Name" name="company_name">
-                    <Input required placeholder="Company/ Business Name" style={{ backgroundColor: '#d0e6ed' }} />
-                </Form.Item>
-
                 <Form.Item required label="Height" name="height">
                     <Select placeholder="Select Height" style={{ backgroundColor: '#d0e6ed' }}>
                         {Array.from({ length: 61 }, (_, i) => {
@@ -283,6 +260,70 @@ const Register = () => {
                         })}
                     </Select>
                 </Form.Item>
+                <Form.Item label="Complexion" required name="complexion">
+                    <Select placeholder="Select Complexion" showSearch={true} style={{ backgroundColor: '#d0e6ed' }}>
+                        {complexions.map(complexion => (
+                            <Option key={complexion} value={complexion}>
+                                {complexion}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+
+                <Form.Item label="Religion" required name="religion">
+                    <Select placeholder="Select Religion" showSearch={true} style={{ backgroundColor: '#d0e6ed' }}>
+                        {religions.map(religion => (
+                            <Option key={religion} value={religion.name} >
+                                {religion.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item required label="Gotra" name="gotra">
+                    <Input required placeholder="Gotra" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+                <Form.Item required label="Marital Status" name="marital_status" >
+                    <Select placeholder="Select Marital Status" style={{ backgroundColor: '#d0e6ed' }} defaultValue={"never_married"}>
+                        <Option value="never_married">Never Married</Option>
+                        <Option value="awaiting_divorce">Awaiting Divorce</Option>
+                        <Option value="divorced">Divorced</Option>
+                        <Option value="widowed">Widowed</Option>
+                        <Option value="annulled">Annulled</Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item required label="Date of Birth" name="dob" >
+                    <DatePicker required style={{ width: '100%' }} className='custom-date-picker' />
+                </Form.Item>
+
+                <Form.Item required label="Birth Place" name="place_of_birth">
+                    <Input required placeholder="Birth Place" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <Form.Item
+                    required
+                    label="Select Time"
+                    name="time"
+                    rules={[{ required: true, message: 'Please select a time' }]} // Validation rule
+                >
+                    <TimePicker
+                        use12Hours // Enables 12-hour format with AM/PM
+                        format="h:mm A" // 12-hour format with AM/PM
+                        style={{ width: '100%', backgroundColor: '#d0e6ed' }}
+                        placeholder="Select Time"
+                    // defaultValue={moment('12:00 PM', 'h:mm A')}
+                    />
+                </Form.Item>
+
+                <Form.Item required label="Profession" name="profession">
+                    <Input required placeholder="Profession" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+                <Form.Item required label="Company Name" name="company_name">
+                    <Input required placeholder="Company/ Business Name" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+
+
 
                 <Form.Item required label="Highest Qualification" name="carrer_info">
                     <Input required placeholder="Highest Qualification" style={{ backgroundColor: '#d0e6ed' }} />
@@ -301,9 +342,7 @@ const Register = () => {
                         />
                     </Form.Item>
                 </div>
-                <Form.Item label="Birth Place" name="place_of_birth">
-                    <Input placeholder="Birth Place" style={{ backgroundColor: '#d0e6ed' }} />
-                </Form.Item>
+
 
                 <Form.Item label="Eating Habit" name="eating_habits" >
                     <Select placeholder="Select Eating Habit" style={{ backgroundColor: '#d0e6ed' }}>
@@ -360,12 +399,14 @@ const Register = () => {
 
                     />
                 </Form.Item>
-                <Form.Item required label="Contact Name" name="contact_name">
-                    <Input placeholder="Contact Name" style={{ backgroundColor: '#d0e6ed' }} />
+                <Form.Item required label="Father's Name" name="contact_name">
+                    <Input required placeholder="Father's name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
-
-                <Form.Item required label="Contact Email" name="contact_email">
-                    <Input type="email" placeholder="Contact Email" style={{ backgroundColor: '#d0e6ed' }} />
+                <Form.Item required label="Father's Occupation" name="father occupation">
+                    <Input required placeholder="Father's Occupation" style={{ backgroundColor: '#d0e6ed' }} />
+                </Form.Item>
+                <Form.Item required label="Mother's Name" name="contact_email">
+                    <Input required placeholder="Mother's Name" style={{ backgroundColor: '#d0e6ed' }} />
                 </Form.Item>
 
                 <Form.Item required label="Contact Number" name="contact_no" >

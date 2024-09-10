@@ -5,6 +5,7 @@ import randomize, {isCrypto} from 'randomatic';
 import moment from "moment";
 
 const usersCollection =collection(db, 'users');
+const additionalInfoDoc = doc(collection(db, 'preference_and_about'), 'preference_and)about');
 
 
 export async function genUUID(uid) {
@@ -131,7 +132,22 @@ export async function signInWithPhone(phoneNumber, forceResend = false) {
 
     return auth.signInWithPhoneNumber(phoneNumber, forceResend);
 }
-
+export const getPreferenceAndAbout = async () => {
+  try {
+    const docSnap = await getDoc(additionalInfoDoc);
+    
+    // Check if the document exists
+    if (docSnap.exists()) {
+      return docSnap.data(); // Return the document data
+    } else {
+      console.error("No such document!");
+      return {}; // Return an empty object if document doesn't exist
+    }
+  } catch (e) {
+    console.error(e);
+    return {}; // Return an empty object in case of an error
+  }
+};
 export async function getReligions() {
     try {
         const religionCollection = collection(db, 'religions');
