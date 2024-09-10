@@ -12,6 +12,7 @@ import DisclaimerPage from './Disclaimer';
 // import Statistics from './stat';
 import router from './router';
 import Home from './Home';
+import { AuthProvider } from './context/Auth.context';
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -47,12 +48,13 @@ function App() {
 
   return (
     <>
-  
 
-      <RouterProvider router={router} >
-      <Home />
-      <Footer/>
-      </RouterProvider>
+      <AuthProvider>
+        <RouterProvider router={router} >
+          <Home />
+          <Footer />
+        </RouterProvider>
+      </AuthProvider>
     </>
   );
 }
