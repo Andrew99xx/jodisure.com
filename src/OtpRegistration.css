@@ -126,17 +126,18 @@
   .otp-registration-container {
     flex-direction: column; /* Stacks the sections vertically */
     padding: 15px;
-    height: fit-content;
+    /* height: fit-content; */
   }
 
   .left-section-otp,
   .right-section-otp {
+    margin-top: -10px;
     border: none;
     padding: 10px;
   }
 
   .logo-image {
-    margin-top: 40px;
+    margin-top: 100px;
     width: fit-content;
     height: 120px;
   }
