@@ -1,11 +1,11 @@
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { auth, db, storage } from "../firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import randomize, {isCrypto} from 'randomatic';
 import moment from "moment";
-
+export const recommendationURL =
+  "https://asia-south1-rivayatt-3c9d5.cloudfunctions.net/getRecomendationFromFirebase/?id=";
 const usersCollection =collection(db, 'users');
-const additionalInfoDoc = doc(collection(db, 'preference_and_about'), 'preference_and)about');
 
 
 export async function genUUID(uid) {
@@ -54,7 +54,58 @@ export async function genUUID(uid) {
       throw new Error('Failed to set preferences');
     }
   }
+
+  export const fetchUserImages = (uid, callback) => {
+    // Reference to the user's images collection
+    const imagesCollectionRef = collection(db, 'users', uid, 'images', );
   
+    // Set up a listener for real-time updates
+    const unsubscribe = onSnapshot(imagesCollectionRef, (querySnapshot) => {
+      const images = [];
+      
+      querySnapshot.forEach((documentSnapshot) => {
+        images.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
+      });
+  
+      // Pass the images array to the callback function
+      callback(images);
+    }, (error) => {
+      console.error("Error fetching images: ", error);
+    });
+  
+    // Return the unsubscribe function to stop listening for updates when needed
+    return unsubscribe;
+  };
+  
+  export async function getRecomendations(id) {
+    try {
+      if (!id) {
+        id = auth?.currentUser?.uid;
+      }
+      console.log("am I working?", recommendationURL + id);
+      const response = await fetch(recommendationURL + id, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        console.error("----------",response.statusText);
+        
+        // throw new Error("Network response was not ok" + response.statusText);
+      }
+  
+      const data = await response.json();
+      console.log("datadatadata", data);
+      // shuffleArray(data)
+      return data;
+    } catch (e) {
+      console.error("Something went wrong", e);
+      return [];
+    }
+  }
   export async function autoGenPreferences(uid) {
     if (!uid) {
       uid = auth.currentUser?.uid;
@@ -132,22 +183,7 @@ export async function signInWithPhone(phoneNumber, forceResend = false) {
 
     return auth.signInWithPhoneNumber(phoneNumber, forceResend);
 }
-export const getPreferenceAndAbout = async () => {
-  try {
-    const docSnap = await getDoc(additionalInfoDoc);
-    
-    // Check if the document exists
-    if (docSnap.exists()) {
-      return docSnap.data(); // Return the document data
-    } else {
-      console.error("No such document!");
-      return {}; // Return an empty object if document doesn't exist
-    }
-  } catch (e) {
-    console.error(e);
-    return {}; // Return an empty object in case of an error
-  }
-};
+
 export async function getReligions() {
     try {
         const religionCollection = collection(db, 'religions');
